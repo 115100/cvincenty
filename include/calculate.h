@@ -1,5 +1,5 @@
-#ifndef _VARIABLES_H
-#define _VARIABLES_H
+#ifndef _CALCULATE_H
+#define _CALCULATE_H
 
 #define FLATTENING 0.00335281066
 
@@ -26,4 +26,4 @@ void calculateLambda(double reducedLat_1, double reducedLat_2, double long_1, do
 double calculateSinSigma(double reducedLat_1, double reducedLat_2, double lambda);
 double calculateSinAlpha(double reducedLat_1, double reducedLat_2, double lambda, double sinSigma);
 
-#endif // _VARIABLES_H
+#endif // _CALCULATE_H
