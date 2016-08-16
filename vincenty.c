@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	if (argc != 5)
 	{
 		fprintf(stderr, "Incorrect number of variables.\n");
-		printf("Usage: ./vinceny LAT1 LONG1 LAT2 LONG2");
+		printf("Usage: ./vincenty LAT1 LONG1 LAT2 LONG2");
 		return 1;
 	}
 
