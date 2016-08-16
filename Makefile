@@ -1,4 +1,4 @@
-CFLAGS = -Iinclude -std=gnu99 -O2
+CFLAGS = -Iinclude -std=gnu99 -O3
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<
