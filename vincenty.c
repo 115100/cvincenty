@@ -26,6 +26,15 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+	if (!(-180. <= lat_1 && lat_1 <= 180.) ||
+	    !(-180. <= long_1 && long_1 <= 180.) ||
+	    !(-180. <= lat_2 && lat_2 <= 180.) ||
+	    !(-180. <= long_2 && long_2 <= 180.))
+	{
+		fprintf(stderr, "Lat/long out of valid ranges. Exiting.\n");
+		return 1;
+	}
+
 	distance = calculateDistance(lat_1, long_1, lat_2, long_2);
 
 	if (errno == EDOM)
