@@ -7,7 +7,8 @@
 
 int main(int argc, char *argv[])
 {
-	double distance, lat_1, long_1, lat_2, long_2;
+	char *letters;
+	double distance, latLongPairs[4];
 
 	if (argc != 5)
 	{
@@ -15,10 +16,16 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	lat_1  = strtod(argv[1], NULL);
-	long_1 = strtod(argv[2], NULL);
-	lat_2  = strtod(argv[3], NULL);
-	long_2 = strtod(argv[4], NULL);
+	for (int i=0; i<4; i++)
+	{
+		latLongPairs[i] = strtod(argv[i+1], &letters);
+
+		if (argv[i+1] == letters)
+		{
+			fprintf(stderr, "Cast of arg %d could not be casted to double. Exiting.\n", i+1);
+			return 1;
+		}
+	}
 
 	if (errno == ERANGE)
 	{
@@ -26,16 +33,16 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	if (!(-180. <= lat_1 && lat_1 <= 180.) ||
-	    !(-180. <= long_1 && long_1 <= 180.) ||
-	    !(-180. <= lat_2 && lat_2 <= 180.) ||
-	    !(-180. <= long_2 && long_2 <= 180.))
+	if (!(-180. <= latLongPairs[0] && latLongPairs[0] <= 180.) ||
+	    !(-180. <= latLongPairs[1] && latLongPairs[1] <= 180.) ||
+	    !(-180. <= latLongPairs[2] && latLongPairs[2] <= 180.) ||
+	    !(-180. <= latLongPairs[3] && latLongPairs[3] <= 180.))
 	{
 		fprintf(stderr, "Lat/long out of valid ranges. Exiting.\n");
 		return 1;
 	}
 
-	distance = calculateDistance(lat_1, long_1, lat_2, long_2);
+	distance = calculateDistance(latLongPairs[0], latLongPairs[1], latLongPairs[2], latLongPairs[3]);
 
 	if (errno == EDOM)
 		return 1;
