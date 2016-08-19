@@ -9,19 +9,18 @@ double reducedLat(double lat)
 }
 
 
-double calculateSinSigma(double reducedLat_1, double reducedLat_2, double lambda)
+double calculateSinSigma(double phi_1, double phi_2, double lambda)
 {
-	double firstSqrtOperand = pow(cos(reducedLat_2) * sin(lambda), 2.);
-	double secondSqrtOperand = pow(cos(reducedLat_1) * sin(reducedLat_2)
-									- sin(reducedLat_1) * cos(reducedLat_2) * cos(lambda), 2.);
+	double firstSqrtOperand = pow(cos(phi_2) * sin(lambda), 2.);
+	double secondSqrtOperand = pow(cos(phi_1) * sin(phi_2) - sin(phi_1) * cos(phi_2) * cos(lambda), 2.);
 
 	return sqrt(firstSqrtOperand + secondSqrtOperand);
 }
 
 
-double calculateCosSigma(double reducedLat_1, double reducedLat_2, double lambda)
+double calculateCosSigma(double phi_1, double phi_2, double lambda)
 {
-	return sin(reducedLat_1) * sin(reducedLat_2) + cos(reducedLat_1) * cos(reducedLat_2) * cos(lambda);
+	return sin(phi_1) * sin(phi_2) + cos(phi_1) * cos(phi_2) * cos(lambda);
 }
 
 
@@ -31,11 +30,11 @@ double calculateSigma(double sinSigma, double cosSigma)
 }
 
 
-double calculateSinAlpha(double reducedLat_1, double reducedLat_2, double lambda, double sinSigma)
+double calculateSinAlpha(double phi_1, double phi_2, double lambda, double sinSigma)
 {
 	double numerator;
 
-	numerator = cos(reducedLat_1) * cos(reducedLat_2) * sin(lambda);
+	numerator = cos(phi_1) * cos(phi_2) * sin(lambda);
 
 	return numerator / sinSigma;
 }
@@ -47,9 +46,9 @@ double calculateCosSquaredAlpha(double sinAlpha)
 }
 
 
-double calculateCosTwoAlpha_M(double reducedLat_1, double reducedLat_2, double cosSquaredAlpha, double cosSigma)
+double calculateCosTwoAlpha_M(double phi_1, double phi_2, double cosSquaredAlpha, double cosSigma)
 {
-	double secondTerm = 2. * sin(reducedLat_1) * sin(reducedLat_2) / cosSquaredAlpha;
+	double secondTerm = 2. * sin(phi_1) * sin(phi_2) / cosSquaredAlpha;
 
 	return cosSigma - secondTerm;
 }
@@ -65,16 +64,16 @@ double calculateC(double cosSquaredAlpha)
 }
 
 
-void calculateLambda(double reducedLat_1, double reducedLat_2, double long_1, double long_2, struct vincentyVars *V)
+void calculateLambda(double phi_1, double phi_2, double long_1, double long_2, struct vincentyVars *V)
 {
 	double C, L, sinAlpha, sigma, sinSigma, cosSquaredAlpha, cosTwoSigma_M, cosSigma;
-	sinSigma = calculateSinSigma(reducedLat_1, reducedLat_2, V->lambda);
-	cosSigma = calculateCosSigma(reducedLat_1, reducedLat_2, V->lambda);
+	sinSigma = calculateSinSigma(phi_1, phi_2, V->lambda);
+	cosSigma = calculateCosSigma(phi_1, phi_2, V->lambda);
 
-	sinAlpha = calculateSinAlpha(reducedLat_1, reducedLat_2, V->lambda, sinSigma);
+	sinAlpha = calculateSinAlpha(phi_1, phi_2, V->lambda, sinSigma);
 	cosSquaredAlpha = calculateCosSquaredAlpha(sinAlpha);
 	sigma = calculateSigma(sinSigma, cosSigma);
-	cosTwoSigma_M = calculateCosTwoAlpha_M(reducedLat_1, reducedLat_2, cosSquaredAlpha, cosSigma);
+	cosTwoSigma_M = calculateCosTwoAlpha_M(phi_1, phi_2, cosSquaredAlpha, cosSigma);
 
 	C = calculateC(cosSquaredAlpha);
 	L = long_2 - long_1;

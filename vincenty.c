@@ -1,23 +1,19 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
-#include <time.h>
 
 #include "measure.h"
 
+
 int main(int argc, char *argv[])
 {
-	double distance;
+	double distance, lat_1, long_1, lat_2, long_2;
 
 	if (argc != 5)
 	{
-		fprintf(stderr, "Incorrect number of variables.\n");
-		printf("Usage: ./vincenty LAT1 LONG1 LAT2 LONG2");
+		fprintf(stderr, "Incorrect number of variables.\nUsage: ./vincenty LAT1 LONG1 LAT2 LONG2\n");
 		return 1;
 	}
-
-	double lat_1, long_1, lat_2, long_2;
 
 	lat_1  = strtod(argv[1], NULL);
 	long_1 = strtod(argv[2], NULL);
