@@ -66,32 +66,28 @@ double calculateC(double cosSquaredAlpha)
 
 void calculateLambda(double phi_1, double phi_2, double long_1, double long_2, struct vincentyVars *V)
 {
-	double C, L, sinAlpha, sigma, sinSigma, cosSquaredAlpha, cosTwoSigma_M, cosSigma;
-	sinSigma = calculateSinSigma(phi_1, phi_2, V->lambda);
-	cosSigma = calculateCosSigma(phi_1, phi_2, V->lambda);
+	double C, L, sinAlpha, sigma;
 
-	sinAlpha = calculateSinAlpha(phi_1, phi_2, V->lambda, sinSigma);
-	cosSquaredAlpha = calculateCosSquaredAlpha(sinAlpha);
-	sigma = calculateSigma(sinSigma, cosSigma);
-	cosTwoSigma_M = calculateCosTwoAlpha_M(phi_1, phi_2, cosSquaredAlpha, cosSigma);
+	V->sinSigma = calculateSinSigma(phi_1, phi_2, V->lambda);
+	V->cosSigma = calculateCosSigma(phi_1, phi_2, V->lambda);
 
-	C = calculateC(cosSquaredAlpha);
+	sinAlpha = calculateSinAlpha(phi_1, phi_2, V->lambda, V->sinSigma);
+	V->cosSquaredAlpha = calculateCosSquaredAlpha(sinAlpha);
+	sigma = calculateSigma(V->sinSigma, V->cosSigma);
+	V->cosTwoSigma_M = calculateCosTwoAlpha_M(phi_1, phi_2, V->cosSquaredAlpha, V->cosSigma);
+
+	C = calculateC(V->cosSquaredAlpha);
 	L = long_2 - long_1;
 
 	V->lambda = L + (
 		1. - C
 	) * FLATTENING * sinAlpha * (
-		sigma + C * sinSigma * (
-			cosTwoSigma_M + C * cosSigma * (
-				-1. + 2. * pow(cosTwoSigma_M, 2.)
+		sigma + C * V->sinSigma * (
+			V->cosTwoSigma_M + C * V->cosSigma * (
+				-1. + 2. * pow(V->cosTwoSigma_M, 2.)
 			)
 		)
 	);
-
-	V->cosSquaredAlpha = cosSquaredAlpha;
-	V->sinSigma = sinSigma;
-	V->cosTwoSigma_M = cosTwoSigma_M;
-	V->cosSigma = cosSigma;
 }
 
 
