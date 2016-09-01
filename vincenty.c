@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
 	if (argc != 5)
 	{
-		fprintf(stderr, "Incorrect number of variables.\nUsage: ./vincenty LAT1 LONG1 LAT2 LONG2\n");
+		fprintf(stderr, "Incorrect number of arguments.\nUsage: ./vincenty LAT1 LONG1 LAT2 LONG2\n");
 		return 1;
 	}
 
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
 		if (argv[i+1] == letters)
 		{
-			fprintf(stderr, "Cast of arg %d could not be casted to double. Exiting.\n", i+1);
+			fprintf(stderr, "Arg %d could not be casted to double. Exiting.\n", i+1);
 			return 1;
 		}
 	}
